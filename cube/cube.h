@@ -16,7 +16,7 @@ public:
     MyFrame();
 
     enum {
-        MY_ID_NEW,
+        MY_ID_NEW = wxID_HIGHEST + 1,
         MY_ID_CLOSE
     };
 

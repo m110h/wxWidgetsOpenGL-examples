@@ -4,7 +4,10 @@
 // helper functions
 // ----------------------------------------------------------------------------
 
-static void CheckGLError()
+namespace HelperFunctions
+{
+
+void CheckGLError()
 {
     GLenum errLast = GL_NO_ERROR;
 
@@ -30,7 +33,7 @@ static void CheckGLError()
 }
 
 // function to draw the texture for cube faces
-static wxImage DrawDice(int size, unsigned num)
+wxImage DrawDice(int size, unsigned num)
 {
     wxASSERT_MSG( num >= 1 && num <= 6, "invalid dice index" );
 
@@ -77,6 +80,8 @@ static wxImage DrawDice(int size, unsigned num)
     return bmp.ConvertToImage();
 }
 
+}
+
 // ----------------------------------------------------------------------------
 // TestGLContext
 // ----------------------------------------------------------------------------
@@ -117,13 +122,13 @@ TestGLContext::TestGLContext(wxGLCanvas *canvas): wxGLContext(canvas)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-        const wxImage img(DrawDice(256, i + 1));
+        const wxImage img(HelperFunctions::DrawDice(256, i + 1));
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.GetWidth(), img.GetHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, img.GetData());
     }
 
-    CheckGLError();
+    HelperFunctions::CheckGLError();
 }
 
 void TestGLContext::DrawRotatedCube(float xangle, float yangle)
@@ -195,5 +200,5 @@ void TestGLContext::DrawRotatedCube(float xangle, float yangle)
 
     glFlush();
 
-    CheckGLError();
+    HelperFunctions::CheckGLError();
 }

@@ -1,37 +1,24 @@
 #include "testglcanvas.h"
 #include "testglcontext_singleton.h"
 
-
-// ----------------------------------------------------------------------------
-// constants
-// ----------------------------------------------------------------------------
-
-// control ids
-enum
-{
-    SpinTimer = wxID_HIGHEST + 1
-};
-
-// ----------------------------------------------------------------------------
-// TestGLCanvas
-// ----------------------------------------------------------------------------
-
-wxBEGIN_EVENT_TABLE(TestGLCanvas, wxGLCanvas)
-    EVT_PAINT(TestGLCanvas::OnPaint)
-    EVT_KEY_DOWN(TestGLCanvas::OnKeyDown)
-    EVT_TIMER(SpinTimer, TestGLCanvas::OnSpinTimer)
-wxEND_EVENT_TABLE()
-
 TestGLCanvas::TestGLCanvas(wxWindow *parent)
     // With perspective OpenGL graphics, the wxFULL_REPAINT_ON_RESIZE style
     // flag should always be set, because even making the canvas smaller should
     // be followed by a paint event that updates the entire canvas with new
     // viewport settings.
-    : wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE),
-      m_xangle(30.0),
-      m_yangle(30.0),
-      m_spinTimer(this,SpinTimer)
+    : wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 {
+    this->Bind(wxEVT_PAINT, [&](wxPaintEvent& event){
+        OnPaint(event);
+    });
+
+    this->Bind(wxEVT_KEY_DOWN, [&](wxKeyEvent& event){
+        OnKeyDown(event);
+    });
+
+    m_spinTimer.Bind(wxEVT_TIMER, [&](wxTimerEvent& event) {
+        OnSpinTimer(event);
+    });
 }
 
 void TestGLCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
@@ -47,9 +34,9 @@ void TestGLCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
     // is wrong when next another canvas is repainted.
     const wxSize ClientSize = GetClientSize() * GetContentScaleFactor();
 
-    TestGLContext& canvas = TestGLContextSingleton::GetInstance().GetContext(this);
     glViewport(0, 0, ClientSize.x, ClientSize.y);
 
+    TestGLContext& canvas = TestGLContextSingleton::GetInstance().GetContext(this);
     canvas.DrawRotatedCube(m_xangle, m_yangle);
 
     SwapBuffers();
