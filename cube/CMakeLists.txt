@@ -6,6 +6,14 @@ set(PROJECT wxopenglcube)
 
 project(${PROJECT} LANGUAGES CXX)
 
+# GNU, Clang, Intel, MSVC
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	message("compiler: GCC")
+else()
+	message("Unsupported compiler. Please, use GCC. Stop")
+	return()
+endif()
+
 # Check a platform
 if(WIN32)
 	message("Platform: WIN32")
