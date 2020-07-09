@@ -16,9 +16,10 @@ public:
 
 private:
     void OnPaint(wxPaintEvent& event);
-    void Spin(float xSpin, float ySpin);
     void OnKeyDown(wxKeyEvent& event);
     void OnSpinTimer(wxTimerEvent& WXUNUSED(event));
+
+    void Spin(float xSpin, float ySpin);
 
     // angles of rotation around x- and y- axis
     float m_xangle;

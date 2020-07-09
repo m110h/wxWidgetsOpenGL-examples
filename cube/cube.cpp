@@ -54,25 +54,11 @@ wxString glGetwxString(GLenum name)
 // MyFrame: main application window
 // ----------------------------------------------------------------------------
 
-wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_MENU(wxID_NEW, MyFrame::OnNewWindow)
-    EVT_MENU(wxID_CLOSE, MyFrame::OnClose)
-wxEND_EVENT_TABLE()
-
 MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "wxWidgets OpenGL Cube Sample")
 {
     new TestGLCanvas(this);
 
-    // Make a menubar
-    wxMenu *menu = new wxMenu;
-    menu->Append(wxID_NEW);
-    menu->AppendSeparator();
-    menu->Append(wxID_CLOSE);
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(menu, "&Cube");
-
-    SetMenuBar(menuBar);
-
+    MakeMenu();
     CreateStatusBar();
 
     SetClientSize(400, 400);
@@ -82,6 +68,34 @@ MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "wxWidgets OpenGL Cube Sample")
     static const int attribs[] = { WX_GL_RGBA, WX_GL_DOUBLEBUFFER, 0 };
 
     wxLogStatus("Double-buffered display %s supported", wxGLCanvas::IsDisplaySupported(attribs) ? "is" : "not");
+}
+
+void MyFrame::MakeMenu()
+{
+    wxMenu *menu = new wxMenu;
+
+    menu->Append(MY_ID_NEW, wxT("&New\tCtrl+n"));
+    menu->AppendSeparator();
+    menu->Append(MY_ID_CLOSE, wxT("&Close\tCtrl+w"));
+
+    wxMenuBar *menuBar = new wxMenuBar;
+    menuBar->Append(menu, "&Cube");
+
+    SetMenuBar(menuBar);
+
+    menuBar->Bind(wxEVT_MENU, [&](wxCommandEvent& event) {
+        switch (event.GetId())
+        {
+            case MY_ID_NEW:
+                OnNewWindow(event);
+                break;
+            case MY_ID_CLOSE:
+                OnClose(event);
+                break;
+            default:
+                break;
+        }
+    });
 }
 
 void MyFrame::OnClose(wxCommandEvent& WXUNUSED(event))

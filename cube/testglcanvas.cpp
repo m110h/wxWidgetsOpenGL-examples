@@ -55,14 +55,6 @@ void TestGLCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
     SwapBuffers();
 }
 
-void TestGLCanvas::Spin(float xSpin, float ySpin)
-{
-    m_xangle += xSpin;
-    m_yangle += ySpin;
-
-    Refresh(false);
-}
-
 void TestGLCanvas::OnKeyDown(wxKeyEvent& event)
 {
     float angle = 5.0;
@@ -103,4 +95,12 @@ void TestGLCanvas::OnKeyDown(wxKeyEvent& event)
 void TestGLCanvas::OnSpinTimer(wxTimerEvent& WXUNUSED(event))
 {
     Spin(0.0, 4.0);
+}
+
+void TestGLCanvas::Spin(float xSpin, float ySpin)
+{
+    m_xangle += xSpin;
+    m_yangle += ySpin;
+
+    Refresh(false);
 }
