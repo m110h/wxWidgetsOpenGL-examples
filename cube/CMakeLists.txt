@@ -32,11 +32,11 @@ set(SOURCES
 add_executable(${PROJECT} ${SOURCES})
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-	set(WXLIBS wxmsw31ud_core wxbase31ud wxmsw31ud_gl)
+	set(WXLIBS opengl32 wxmsw31ud_core wxbase31ud wxmsw31ud_gl)
 	# target_compile_options(protopuddlepp PRIVATE -Wall -g)
 	target_link_options(${PROJECT} PRIVATE -mwindows)
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-	set(WXLIBS wxmsw31u_core wxbase31u wxmsw31u_gl)
+	set(WXLIBS opengl32 wxmsw31u_core wxbase31u wxmsw31u_gl)
 	# target_compile_options(protopuddlepp PRIVATE -Wall)
 	# -s - Remove all symbol table and relocation information from the executable
 	target_link_options(${PROJECT} PRIVATE -s -mwindows)
