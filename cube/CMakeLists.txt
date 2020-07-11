@@ -8,7 +8,7 @@ project(${PROJECT} LANGUAGES CXX)
 
 # GNU, Clang, Intel, MSVC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-	message("compiler: GCC")
+	message("Compiler: GCC")
 else()
 	message("Unsupported compiler. Please, use GCC. Stop")
 	return()
@@ -37,13 +37,10 @@ else()
 	message("Configuration: ${CMAKE_BUILD_TYPE}")
 endif()
 
-set(SOURCES
-	cube.cpp
-	testglcanvas.cpp
-	testglcontext.cpp
-	)
+#set(SOURCES_LIST cube.cpp testglcanvas.cpp testglcontext.cpp)
+file(GLOB SOURCES_LIST "*.cpp" "*.h") 
 
-add_executable(${PROJECT} ${SOURCES})
+add_executable(${PROJECT} ${SOURCES_LIST})
 
 if(WIN32)
 	if (CMAKE_BUILD_TYPE STREQUAL "Debug")
