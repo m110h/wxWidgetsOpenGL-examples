@@ -35,3 +35,15 @@
 cube/build/
 cube/build-codeblocks/
 cube/tmp/
+
+pyramid/build/
+pyramid/build-codeblocks/
+pyramid/tmp/
+
+isosurf/build/
+isosurf/build-codeblocks/
+isosurf/tmp/
+
+penguin/build/
+penguin/build-codeblocks/
+penguin/tmp/
